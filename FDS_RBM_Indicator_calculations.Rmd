@@ -452,7 +452,7 @@ table(main$RBM10202)
 FDS_PAK_2024_main <- main %>%
   as_survey_design(
     ids = NULL,           # Specify the column with cluster IDs
-    weights = , # Specify the column with survey weights
+    weights = NULL , # Specify the column with survey weights
     nest = TRUE              # Use TRUE if PSUs are nested within clusters (optional, based on your survey design)
   )
 ```
@@ -467,12 +467,20 @@ FDS_PAK_2024_main <- main %>%
 ####Standard tables 
 
 
-composite_impact2_2 <- main %>%
-  select(Intro_07, shelter, electricity, Improved_dw_final, Landslides_flooding, RBM10202) %>%
-  pivot_longer(cols = shelter:Landslides_flooding, names_to = "facility", values_to = "access") %>%
-  group_by(Intro_07, facility) %>%
-  summarise(percentage = mean(access, na.rm = TRUE) * 100) %>%
+composite_impact2_2 <- FDS_CMR_2024_main %>%
+  filter(!is.na(Intro_07)) %>%
+  group_by(Intro_07) %>%
+  summarise(
+    shelter = survey_mean(shelter, na.rm = TRUE),
+    electricity = survey_mean(electricity, na.rm = TRUE),
+    Improved_dw_final = survey_mean(Improved_dw_final, na.rm = TRUE),
+    Landslides_flooding = survey_mean(Landslides_flooding, na.rm = TRUE)
+  ) %>%
   ungroup()
+ 
+composite_impact2_2 <- composite_impact2_2 %>%
+  pivot_longer(cols = shelter:Landslides_flooding, names_to = "facility", values_to = "percentage")
+has context menu
 
 ##add labels
 composite_impact2_2 <- composite_impact2_2 %>%
