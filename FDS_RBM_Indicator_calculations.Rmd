@@ -13,7 +13,7 @@ output:
 knitr::opts_chunk$set(eval=FALSE)
 ```
 
-Date: Last revision was in January 2025
+Date: Last revision was in February 2025
 
 *For any issues please contact Ilgi Bozdag at bozdag@unhcr.org or Petra Kaps at kaps@unhcr.org*
 
@@ -204,13 +204,15 @@ table(RA_caregiver$COO_RC) #in dataset "RA_caregiver".
 
 This indicator aims to measure the proportion of forcibly displaced and stateless people that reside in safe and secure settlements with access to basic facilities such as shelter, WASH, energy and security from natural hazards.
 
-To facilitate measurement for UNHCR, four basic services are considered for this indicator: shelter, drinking water, energy (access to electricity), health. All of these basic services must be available to people for it to be considered that they have access to basic services.
+People with access to basic facilities are defined as those who have access to all four basic services considered for this indicator: shelter, drinking water, energy and health. Concretely, 1) they live inhabitable housing, which is not overcrowded, provides protection from natural elements and otherthreats, 2)they can reach a primary healthcare facility within one hour from their housing, 3) have electricity for lighting, and 4) use improved sources of drinking water in their housing or within 30minutes round trip collection time. In addition, 5) they live in safe and secure neighbourhoods, proxiedthrough absence of flooding and landmine risks and hazards.
+As all five conditions need to be met, values for this indicator can be very low and a detailed analysis ofindicator components is required.
+
 
 In FDS, we are only able to calculate a proxy as we limited in assessing the health aspect of this indicator. Therefore, only three basic services are included in the calculation. 
 
 | Services       | Variables                                                            |
 |----------------|:--------------------------------------------------------:            |
-| Electricity    |HL01, HL03                                                            |                                                    
+| Electricity    |HL01, HL03                                                            |                                       
 | Drinking water |BD01, BD01a, BD20_2, BD22                                             |
 | Shelter        |HH04, HH05,HH08,HH09, HH10, HH11,HH14, ExpShock02                     |
 
@@ -460,7 +462,7 @@ FDS_PAK_2024_main <- main %>%
 ```
 
 
-###Figure for RBM Core Impact 2.2 : Composite Variables 
+###Figure for RBM Core Impact 2.2 : Composite Variables by population group
 
 ```{r, eval=FALSE}
 #Table by population groups 
@@ -469,7 +471,7 @@ FDS_PAK_2024_main <- main %>%
 ####Standard tables 
 
 
-composite_impact2_2 <- FDS_CMR_2024_main %>%
+composite_impact2_2 <- FDS_PAK_2024_main %>%
   filter(!is.na(Intro_07)) %>%
   group_by(Intro_07) %>%
   summarise(
@@ -482,7 +484,6 @@ composite_impact2_2 <- FDS_CMR_2024_main %>%
  
 composite_impact2_2 <- composite_impact2_2 %>%
   pivot_longer(cols = shelter:Landslides_flooding, names_to = "facility", values_to = "percentage")
-has context menu
 
 ##add labels
 composite_impact2_2 <- composite_impact2_2 %>%
@@ -521,8 +522,6 @@ composite_impact2_2 %>%
 
 
 ```
-
-
 
 ### Figure for RBM Core Impact 2.2 by Population Groups
 
@@ -569,6 +568,8 @@ ggplot(RBM10202, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 *Indicator Code*: RBM10203
 
 This indicator measures access to essential primary health care services for forcibly displaced and stateless people in need of health services. Health services refer to preventive, promotive, curative, rehabilitative and palliative health services.
+
+People with access to essential primary health care services are defined as those who needed to seehealth professionals in the past three months and received the required medical attention. Reasons fornot being able to access medical care are recorded. Individuals who chose not to seek services areexcluded from the calculation.
 
 Please note that the FDS does not measure access to mental health, psycho social support, rehabilitative services, or palliative care. Additionally, the standard recall period is typically 3 months; however, in the FDS, a 30-day recall period is used. Therefore, the results below should be considered as a proxy for the 2.3 Core Impact Indicator. 
 
@@ -742,8 +743,7 @@ ggplot(RBM10203_AGD, aes(x = HH_02_RA, y = mean_value, fill = disability_RA)) +
 
 *Indicator Code*: RBM10302A
 
-This indicator measures the number of students enrolled in primary education, regardless of age, expressed as a percentage of the official school-age population corresponding to the respective same level of education.
-This is also referred to as Gross enrollment rate (GER).
+This indicator measures the primary education gross enrolment rate. It considers all children and young people, regardless of their age, who are officially registered in primary education programmes in anytype of primary school and education institution, expressed as a percentage of the official total primary-school aged population.
 
 
 *Definitions*:
@@ -917,7 +917,9 @@ ggplot(RBM10302A_AGD, aes(x = HH_02, y = mean_value, fill = disability)) +
 **3.2b Proportion of children and young people enrolled in secondary education**
 *Indicator Code*: RBM10302B
 
-"Enrollment" refers to individuals officially registered in a secondary school education programme.
+This indicator measures the secondary education gross enrolment rate. It considers all children andyoung people, regardless of their age, who are officially registered in secondary education programmesin any type of secondary school and education institution, expressed as a percentage of the official totalsecondary-school aged population.
+
+"Enrollment" refers to individuals officially registered in a secondary school education programe.
 
 "Secondary education" provides learning and educational activities building on primary education and preparing for both first labour market entry as well as further study. The common duration is 6 years and is often divided between lower and upper secondary education (corresponding respectively to ISCED 2 and 3).
 
@@ -1077,8 +1079,9 @@ ggplot(RBM10302B_AGD, aes(x = HH_02, y = mean_value, fill = disability)) +
 
 *Indicator Code*: RBM10303
 
-This indicator measures the proportion of people who self-report feeling safe while walking alone in their neighborhood after dark.
-This indicator only pertains to self-reported feeling of ‘safety’ and not ‘security’ since security is associated with additional external factors.
+People feeling safe walking alone in their neighbourhood after dark are defined as those who respondthey feel ‘safe’ or ‘very safe’ in the survey.
+Note this indicator only pertains to the self-reported feeling of ‘safety’ which is subjective andcontextual. It does not relate to ‘security’ which is associated with additional external factors.
+
 It is linked to SDG indicator [16.1.4](https://unstats.un.org/sdgs/metadata/files/Metadata-16-01-04.pdf).
 
 | Standard Questions |
@@ -1223,7 +1226,8 @@ ggplot(RBM10303_AGD, aes(x = HH_02_RA, y = mean_value, fill = disability_RA)) +
 
 *Indicator Code*:RBM20102
 
-This indicator measures the proportion of children under 5 years old whose births have been registered with a civil authority and civil documentation has been issued.
+Children under the age of five years whose births have been registered are defined as those whose birthwas reported as registered with civil authorities at the time of the survey or in possession of a birthcertificate, regardless of whether this was shown to the interviewer. Survey data should be triangulatedwith other sources including national state civil registries and/or refugee/IDP registration data asavailable.
+
 This is directly linked to SGD indicator [16.9.1](https://unstats.un.org/sdgs/metadata/files/Metadata-16-09-01.pdf).
 
 The standard module for this indicator is taken from MICS and adjusted to UNHCR context.
@@ -1416,7 +1420,7 @@ ggplot(RBM20102_AGD, aes(x = HH_02, y = mean_value, fill = Intro_07)) +
 
 *Indicator Code*:RBM20103
 
-This indicator measures the proportion of people who possess legally recognized and valid identity documents or credentials.
+People with legally recognized identity documents or credentials are defined as those who report to be in possession of valid documents that are legally recognised by national law and which may be used asproof of identity, to establish nationality or legal status and associated rights vis-à-vis the host State and/or UNHCR (including birth certificates, passports national or refugee IDs amongst others),regardless of whether these were shown to the interviewer.
 
 ***Definitions***
 
@@ -1582,9 +1586,10 @@ ggplot(RBM20103_AGD, aes(x = HH_02, y = mean_value, fill=HH_04_cat4)) +
 
 *Indicator Code*:RBM20401
 
-The indicator is defined as the proportion of people who know where to access at least one of the two available lifesaving gender-based violence services (health and psycho social) in the aftermath of a GBV incident.
+People who know where to access available GBV services are defined as those who self-reportknowledge of at least one of the two available lifesaving gender-based violence services (Health orPsychosocial/Case Management services)
+in the aftermath of a GBV incident.
 
-The indicator survey question collects information on knowledge of four GBV response services, but  the calculation itself focuses only on knowledge of two lifesaving GBV services that should be immediately set up at the onset of an emergency, health and psycho social services. 
+The indicator survey questions collects information on knowledge of four GBV response services, but  the calculation itself focuses only on knowledge of two lifesaving GBV services that should be immediately set up at the onset of an emergency, health and psycho social services. 
 
 This is linked to the Inter-Agency Minimum Standards for Gender-Based Violence in Emergencies Programming.
 
@@ -1738,7 +1743,8 @@ ggplot(RBM20401_AGD, aes(x = HH_02_RA, y = mean_value, fill = disability_RA)) +
 
 *Indicator Code*:RBM20402
 
-This indicator measures the proportion of people who disagree that a husband is justified in hitting or beating his wife for a list of specific reasons.
+People who do not accept violence against women are defined as those who respond ‘no’ to all of the fivestandard questions, i.e., believe that a husband is not justified in hitting or beating his wife for any of thefive listed reasons: 1) Going out without telling him; 2) Neglecting the children; 3) Arguing with him; 4)Refusing to have sexual intercourse with him; 5) Burning food.
+
 This serves as a proxy indicator for those who do not accept violence against women.
 
 This module is taken from [Domestic Violence Module](https://dhsprogram.com/pubs/pdf/DHSQMP/DHS6_Module_Domestic_Violence_6Aug2014_DHSQMP.pdf) from DHS and similar module used by MICS.
@@ -1908,7 +1914,8 @@ ggplot(RBM20402_AGD, aes(x = HH_02_RA, y = mean_value, fill = disability_RA)) +
 *Indicator Code*:RBM20802
 
 This indicator measures the proportion of population who use clean fuel and technology as primary source of cooking.
-Any type of cooking fuel and technology meeting the WHO set standards on indoor air emissions, as their main cooking solution.
+People with primary reliance on clean cooking fuels and technology are defined as those in householdsthat use one of the following most of the time as their source for cooking: solar cooker, electric stove,piped natural gas stove, biogas stove, LPG/cooking gas stove, liquid fuel stove with alcohol / ethanol.
+
 This is also linked to SGD indicator [7.1.2](https://sdg-tracker.org/energy) .
 
 The standard questions are similar to MICS and the calculation of indicators are based on [UNICEF MICS](https://mics.unicef.org/files?job=W1siZiIsIjIwMTcvMDIvMDMvMTYvMjcvMjUvNTk5L1BpY3RvcmlhbHNfV0hPX0hvdXNlaG9sZF9FbmVyZ3lfVXNlX0NhdGFsb2d1ZV9TZXB0ZW1iZXJfMjAxNl8ucGRmIl1d&sha=57b4a452fcc0ac88) and [WHO](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/5662) guidance on the calculation of the same SGD indicator.
@@ -2022,7 +2029,10 @@ ggplot(RBM20802, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 
 *Indicator Code*:RBM20901
 
-This indicator measures the proportion of people living in habitable and affordable housing. 
+People who live in habitable and affordable housing are defined as those who live in 1) households whichare not overcrowded, 2) housing that is habitable in that it provides protection from cold, damp, heat,rain, wind, and other threats to health, structural hazards, and disease vectors, and 3) who self-reportbeing able to afford to pay rent without financial distress.
+Note this indicator does
+not
+measure ‘adequate’ housing which would include aspects such as security oftenure, availability of other basic services and infrastructure, accessibility, location of housing, andcultural appropriateness.
 
 **In FDS, we are only able to measure the aspect of habitable housing.**
 
@@ -2165,7 +2175,7 @@ ggplot(RBM20901, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 *Indicator Code*:RBM20902
 
 This indicator measures the proportion of forcibly displaced and stateless people who primarily rely on clean fuels for lighting.
-Clean fuels for lighting include using lighting devices connected to electricity (on/off grid, including solar panels), lighting devices using renewable energy (solar-powered lantern or flashlights), lighting devices using fuels considered clean for health such as biogas/LPG lamps and battery powered/rechargeable flashlights/lantern. It excludes the usage of polluting fuels such as oil, kerosene and gasoline and insufficient sources of lighting such as candles and open fires.
+People who have energy to ensure lighting are defined as those in households that use one of thefollowing as light source most of the time: electricity (including solar panels), solar home systems, solar-powered lantern or flashlight, rechargeable flashlight, mobile, torch or lantern, battery poweredflashlight, torch or lantern, biogas lamp, LPG lamp..
 
 The indicator for lighting is constructed from the essential questions *HL01* and *HL03* which captures the most used light source.
 [LSMS Guidebook](https://documents1.worldbank.org/curated/en/557341633679857128/pdf/Measuring-Energy-Access-A-Guide-to-Collecting-Data-Using-the-Core-Questions-on-Household-Energy-Use.pdf) is the main source for measuring energy access as defined for SGD 7.1.12.
@@ -2271,7 +2281,7 @@ ggplot(RBM20902, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 
 *Indicator Code*:RBM21001
 
-Coverage of measles vaccination in children in the target age group of 9 months to 5 years of age.
+Children who have received measles vaccination are defined as those aged between 9 months to fiveyears who have received at least one dose of a measles containing vaccine (measles or MMR - MeaslesMumps and Rubella).
 Measles vaccination is an essential preventive primary care intervention to protect children from measles infection.
 
 Standard module is from [UNICEF MICS6](https://mics.unicef.org/tools#survey-design) Children under 5 module.
@@ -2426,6 +2436,8 @@ ggplot(RBM21001_AGD, aes(x = HH_02_RC, y = mean_value, fill = HH_02_RC)) +  # Fi
 
 *Indicator Code*:RBM21002
 
+Births attended by skilled health personnel are defined as those, where women aged 15-49, who had alive birth in the past two years, were assisted during delivery by skilled health professionals: doctors,nurses or midwives. The place of latest live childbirth is also recorded.
+
 This indicator measures the percentage of births attended by personnel trained (doctors, nurses or midwives, auxiliary midwives) in providing lifesaving obstetric care including providing the necessary supervision, care, and advice to women during pregnancy, labor, and the postpartum period; to conduct deliveries on their own; and to care for newborns.
 Note: traditional birth attendants are not included as skilled health personnel.
 
@@ -2537,7 +2549,7 @@ ggplot(RBM21002, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 
 *Indicator Code*:RBM21201
 
-This indicator is defined as the percentage of people using at least basic water services. Basic drinking water services is defined as drinking water from an improved source, provided collection time is not more than 30 minutes for a round trip, including queuing. 
+This indicator is defined as the percentage of people using at least basic water services. People using at least basic drinking water services are defined as those in households using improvedsources of drinking water either in their dwelling/yard/plot or within 30 minutes round trip collectiontime, including queuing. 
 
 | Standard Questions                |
 |:---------------------------------:|
@@ -2686,7 +2698,7 @@ ggplot(RBM21201, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 
 *Indicator Code*:RBM21202
 
-This indicator measures the proportion of people with access to at least basic sanitation services. Basic sanitation services are defined as improved facilities (toilets) that are not shared with other households. 
+This indicator measures the proportion of people with access to at least basic sanitation services. People with access to a safe household toilet are defined as those in households with improvedsanitation facilities that are emptied safely and that are not shared with other households.
 
 As this indicator measures 'at least basic sanitation services ' as defined by the JMP sanitation ladder it includes also safely managed sanitation services which are defined as the use of hygienic toilet facilities that are not shared with other households and where excreta are either separated from human contact and safely disposed of in situ or transported and treated off-site, thereby protecting people and the environment from disease agents. Safely disposed in situ when pit latrines and septic tanks are not emptied, the excreta may still remain isolated from human contact and can reconsidered safely managed.
 
@@ -2815,7 +2827,8 @@ ggplot(RBM21202, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 
 *Indicator Code*:RBM21301
 
-This indicator measures the percentage of people (age 18+) who report having an account (by themselves or together with someone else) at a bank or another type of financial institution or personally using a mobile money service in the past 12 months in the country of asylum or habitual residence (for returnees, countries of origin are included).
+People with an accountat a bank or other financial institution or with a mobile-money-service provider
+are defined as those who report having an account (by themselves or together with someone else) at a bank or another type of financial institution or personally using a mobile money service in the past 12 months in the country of asylum or habitual residence (for returnees, countries of origin are included).
 Personal mobile and bank accounts are defined as accounts that are fully owned by the person, where they can transact freely as per the country’s rules and regulations. UNHCR or any other third party does not have access to the account details (such as movements on the account) and cannot withdraw money.
 Note that in standard FDS methodology, we measure the percentage of people (age 15+). 
 
@@ -2955,7 +2968,8 @@ ggplot(RBM21301_AGD, aes(x = HH_02_RA, y = mean_value, fill = disability_RA)) +
 
 *Indicator Code*:RBM21302
 
-This indicator measures the proportion of forcibly displaced and stateless people who self-report positive changes in their income compared to the previous year. It aims to track changes in income levels compared to the previous year. According to FAO and ILO, income is defined as the value of resources flowing towards the household from their engagement in wage- or self-employment comprising of both income in money (profits, wage, interest, social benefits etc.) and in kind (goods and services). It is equal to the value of goods and services produced by the wage- or self-employed, net of operating expenses (such as salaries paid, raw materials used, depreciation of machines and instruments and taxes paid), plus any salary received and social security benefits (net of contributions).Income also includes benefits received by employed persons who are no longer in employment, such as unemployment benefits, pensions, invalidity benefits. As with income related to paid employment, all these social benefits will be part of income from employment only insofar as workers received them as a result of their participation in work activities.’ (ILO)The indicator includes income from self-employment and/or wage-employment in both agricultural and non-agricultural activities.
+People who self-report positive changes in their income compared to previous year are defined as thosewho state their income increased and who can also afford more goods and services, or those whoseincome remained the same or decreased but who can still afford more goods and services (to account forpossible inflation).
+
 
 | Standard Questions  |
 |:-------------------:|
@@ -3053,7 +3067,8 @@ ggplot(RBM21302, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 
 *Indicator Code*:RBM21303
 
-This indicator measures the level of unemployment among forcibly displaced and stateless people. Unemployed persons are defined as all those in the labour force who were not in employment, carried out activities to seek employment during the past 7 days and were currently available to take up employment (SDG Indicator 8.5.2). Persons in employment are defined as all those in the labour force who, during the past 7 days, were engaged in any activity to produce goods or provide services for pay or profit (SDG Indicator 8.5.2).
+This indicator measures the level of unemployment among forcibly displaced and stateless people. People who are unemployed are defined as those individuals in the labour force who were not inemployment and seeking a job within 7 days prior to the reference date and who are available to startwork within the next 14 days.
+Note that individuals who worked for pay or profit, even if only for one hour, in past 7 days, or who weretemporarily absent from a job to which they will return are considered employed.
 
 The labour force, also known as workforce, refers to the total number of people who are either in employment or in unemployment, as defined above (SDG Indicator 8.5.2). It is intricately linked to the working age population defined by each country's legal framework, representing the segment of the population within the designated working age range.
 
@@ -3246,7 +3261,7 @@ ggplot(RBM21303_AGD, aes(x = HH_02_RA, y = mean_value, fill = disability_RA)) +
 
 *Indicator Code*:RBM21401
 
-This indicator measures the proportion of returned refugees who possess legally recognized and valid identity documents or credentials to support their return to the country of origin.
+Refugee returnees with legally recognized identity documents or credentials are defined as those who report to be in possession of valid documents that are legally recognised by national law and which may be used asproof of identity, to establish nationality or legal status and associated rights vis-à-vis the host State and/or UNHCR (including birth certificates, passports national or refugee IDs amongst others),regardless of whether these were shown to the interviewer.
 
 ***Definitions***
 
@@ -3366,6 +3381,8 @@ ggplot(RBM21401, aes(x = Intro_07_roster, y = mean_value, fill = Intro_07_roster
 *Indicator Code*:RBM21601
 
 This indicator measures the proportion of people that have secure tenure rights to housing and/or land.
+
+People with secure tenure rights to housing and/or land are defined as those in households with officialdocumentation for both their housing and land and who are unlikely to experience losing their right tothis housing and/or land in the next 12 months. The standard survey questions refer to both factualinformation regarding documentary evidence of tenure, and perceptions regarding the likelihood of onebeing evicted from land and/or housing.
 
 ***Definitions***
 
@@ -3598,6 +3615,10 @@ ggplot(RBM21601, aes(x = Intro_07, y = mean_value, fill = Intro_07)) +
 **16.2 Proportion of people covered by social protection floors/systems**
 
 *Indicator Code*:RBM21602
+
+People covered by national social protection systems are defined as those in households where any household member has received any benefits from the national or local government social protection system in the country in the last 12 months.
+Types of social protection benefits and services are recorded and categorized under: social assistance,social insurance, social services or labour market policies.
+Note this indicator captures inclusion in programmes provided by the government and therefore does not capture assistance provided by UNHCR or other UN agencies.
 
 This indicator measures the proportion of people who receive government social protection benefits and services as a result of inclusion in national social protection systems. This counts those who actually receive social protection benefits or are actively contributing to a social insurance scheme. This means it does not consider whether they have legal rights to social protection (for which there are other rights-based monitoring mechanisms), and it does not count just those who are registered for benefits (which can be reported using the Good Practice Indicator: “Number of people enrolled in social registries”).
 
