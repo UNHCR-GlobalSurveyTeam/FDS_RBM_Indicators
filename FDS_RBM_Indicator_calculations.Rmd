@@ -17,6 +17,10 @@ knitr::opts_chunk$set(eval=FALSE)
 
 Date: Last revision was in February 2025
 
+Github Repo is here: <https://github.com/UNHCR-GlobalSurveyTeam/FDS_RBM_Indicators>
+
+Rmarkdown document is here :<https://rstudio.unhcr.org/FDS-RBM/>
+
 *For any issues please contact Ilgi Bozdag at [bozdag\@unhcr.org](mailto:bozdag@unhcr.org){.email} or Petra Kaps at [kaps\@unhcr.org](mailto:kaps@unhcr.org){.email}*
 
 **Important Instructions**
@@ -149,7 +153,6 @@ RA_adult <- readRDS("C:/Users/BOZDAG/OneDrive - UNHCR/Desktop/UNHCR/R projets/PA
 RA_caregiver <- readRDS("C:/Users/BOZDAG/OneDrive - UNHCR/Desktop/UNHCR/R projets/PAK HL report/PAK_HL_report/RA_caregiver.rds")
 RA_woman <- readRDS("C:/Users/BOZDAG/OneDrive - UNHCR/Desktop/UNHCR/R projets/PAK HL report/PAK_HL_report/RA_woman.rds")
 ```
-
 
 **Population Group**
 
@@ -385,7 +388,6 @@ table(main$HH11) ##Leakage / rottenness in the walls / floors?
 table(main$crowding_cat) #Crowding index - overcrowded when more than 3 persons share one room to sleep
 ```
 
-
 ```{r, eval=FALSE}
 ##Step 2: Classify 96 responses as NAs
 
@@ -505,7 +507,6 @@ composite_impact2_2 <- composite_impact2_2 %>%
   select(shelter, electricity, Improved_dw_final, Landslides_flooding, Intro_07) %>%
   pivot_longer(cols = shelter:Landslides_flooding, names_to = "facility", values_to = "percentage")
 ```
-
 
 ```{r, eval=FALSE}
 # Add labels using recode
@@ -683,7 +684,6 @@ RBM10203 <- FDS_PAK_2024_RA_adult %>%
     #denominator = survey_total(),  # Weighted total count
     #mean_value = survey_mean(RBM10203, vartype = c("ci", "se"), na.rm = TRUE)  # Compute mean with NA removed
 ```
-
 
 ```{r, eval=FALSE}
 ##Chart for the indicator above
@@ -3927,4 +3927,3 @@ FDS_PAK_2024_RA_woman <- RA_woman %>%
 
 
 ```
-
